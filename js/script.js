@@ -33,6 +33,7 @@ guessLetterButton.addEventListener("click", function (e) {
     if (goodGuess) {
         makeGuess(guess);
     }
+    letterInput.value = "";
 });
 
 const validateInput = function (input) {
@@ -60,5 +61,39 @@ const makeGuess = function (guess) {
     } else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+        showGuessedLetters();
+        updateWordInProgress(guessedLetters); //adding "guessLetters" argument added correct guessed letter in place of "●" //
+    }
+};
+
+const showGuessedLetters = function () {
+    guessedLettersElement.innerHTML = "";
+    for (const letter of guessedLetters) {
+        const li = document.createElement("li");
+        li.innerText = letter;
+        guessedLettersElement.append(li);
+      } 
+};
+
+const updateWordInProgress = function (guessedLetters) {
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    const updatedLetters = [];
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            updatedLetters.push(letter.toUpperCase());
+        } else {
+            updatedLetters.push("●");
+        }
+    }
+    console.log(updatedLetters);
+    wordInProgress.innerText = updatedLetters.join(""); 
+    checkIfWin();   
+};
+
+const checkIfWin = function () {
+    if (word.toUpperCase() === wordInProgress.innerText) {
+        message.classList.add("win");
+        message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`
     }
 };
