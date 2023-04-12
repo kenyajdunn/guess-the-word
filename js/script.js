@@ -1,3 +1,6 @@
+// there is a glitch, first word shows 8 attempts & acts normal but once you try to play the attempts change to 10 
+// previous letters guessed does not reset with new word 
+
 const guessedLettersElement = document.querySelector(".guessed-letters");
 const guessLetterButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
@@ -68,7 +71,7 @@ const validateInput = function (input) {
 const makeGuess = function (guess) {
   guess = guess.toUpperCase();
   if (guessedLetters.includes(guess)) {
-    message.innerText = "You already guessed that letter, silly. Try again.";
+    message.innerText = "You already guessed that letter. Try again.";
   } else {
     guessedLetters.push(guess);
     console.log(guessedLetters);
@@ -141,12 +144,14 @@ const startOver = function () {
 };
 
 playAgainButton.addEventListener("click", function() {
+  // reset all original values, show new word
     message.classList.remove("win");
+    guessedLetters = [];
     guessedLettersElement.innerHTML = "";
-    message.innerText = "";
-    remainingGuesses = 10;
+    remainingGuesses = 8;
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
-    
+    message.innerText = "";
+    // get a new word
     getWord();
 
     //show the correct UI - guess button, remaining guesses & guessed letter
